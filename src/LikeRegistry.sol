@@ -38,6 +38,7 @@ contract LikeRegistry is Ownable{
         require(profileNFT.profileToToken(liked) != 0, "Liked user must have a profile NFT");
 
         likes[msg.sender][liked] = true;
+        userBalances[msg.sender] += msg.value;
         emit Liked(msg.sender, liked);
 
         // Check if mutual like
