@@ -51,12 +51,11 @@ contract LikeRegistry is Ownable{
     }
 
     function matchRewards(address from, address to) internal {
-        uint256 matchUserOne = userBalances[from];
-        uint256 matchUserTwo = userBalances[to];
-        userBalances[from] = 0;
-        userBalances[to] = 0;
+        uint256 matchBalance = userBalances[from] < userBalances[to] ? userBalances[from] : userBalances[to];
+        userBalances[from] -= matchBalance;
+        userBalances[to] -= matchBalance;
 
-        uint256 totalRewards = matchUserOne + matchUserTwo;
+        uint256 totalRewards = matchBalance + matchBalance;
         uint256 matchingFees = (totalRewards * FIXEDFEE ) / 100;
         uint256 rewards = totalRewards - matchingFees;
         totalFees += matchingFees;
